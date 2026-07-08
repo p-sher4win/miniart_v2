@@ -73,8 +73,8 @@ class AuthMethods(Document):
     
     provider_uid = StringField(required=False, unique=True, sparse=True) # firebase uid or google uid
     
-    username = StringField(required=False, unique=True, sparse=True, max_length=150)
-    password_hash = StringField(required=False, max_length=512)
+    username = StringField(required=False, unique=True, sparse=True, max_length=150) # for local login
+    password_hash = StringField(required=False, max_length=512) # for local login
 
     created_at = DateTimeField(default=datetime.utcnow)
     updated_at = DateTimeField(default=datetime.utcnow)
@@ -82,7 +82,7 @@ class AuthMethods(Document):
     # PASSWORD HASHING
     @property
     def password(self):
-        raise AttributeError("Password is not a readable!")
+        raise AttributeError("Password is not a readable attribute!")
     
     @password.setter
     def password(self, password):

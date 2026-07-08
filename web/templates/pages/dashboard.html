@@ -1,0 +1,10 @@
+{% extends 'layouts/dashboard_base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+
+<p>{{ current_user.name }}</p>
+<p>{{ current_user.role }}</p>
+
+{% endblock %}

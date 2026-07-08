@@ -7,12 +7,40 @@
 
 <body>
 
+    {% include "components/flash.html" %}
+
     <h2>Private Access</h2>
 
-    <button id="googleLoginBtn">Login with Google</button>
+    <button id="googleLoginBtn" type="button">Login with Google</button>
 
-    <p id="result"></p>
+    <br><br>
 
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div>
+            {{ form.username_email(id="username_email") }}
+            {{ form.username_email.label(for="username_email") }}
+        </div>
+
+        <br>
+
+        <div>
+            {{ form.password(id="password") }}
+            {{ form.password.label(for="password") }}
+        </div>
+
+        <br>
+
+        {{ form.login(class="btn", type="submit") }}
+    </form>
+
+    <br>
+
+    <button id="emailLoginBtn" type="button">Login with Firebase Email</button>
+
+
+    <!-- Firebase Configs -->
     <script>
         window.FIREBASE_CONFIG = {
             apiKey: "{{ firebase_api_key }}",
@@ -24,9 +52,10 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
-    <!-- Your JS file -->
+    <!-- Project JS file -->
     <script src="{{ url_for('static', filename='js/firebase.js') }}"></script>
     <script src="{{ url_for('static', filename='js/googleAuth.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/emailpassAuth.js') }}"></script>
 
 </body>
 

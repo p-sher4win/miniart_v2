@@ -1,13 +1,14 @@
 // Google provider
 const provider = new firebase.auth.GoogleAuthProvider();
+
 provider.setCustomParameters({
     prompt: "select_account"
 });
 
 async function loginWithGoogle() {
     try {
-        await firebase.auth().signOut();
-        const result = await firebase.auth().signInWithPopup(provider);
+        // Sign-in Google popup
+        const result = await auth.signInWithPopup(provider);
 
         // Get Firebase ID token
         const token = await result.user.getIdToken();
@@ -18,32 +19,21 @@ async function loginWithGoogle() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ token: token })
+            body: JSON.stringify({ 
+                token: token 
+            })
         });
-
-        if (!response.ok) {
-            throw new Error("Server error");
-        }
 
         const data = await response.json();
 
+        // Check reposne
+        if (!response.ok) {
+            throw new Error(data.error || "Server error");
+        }
+
+        // Redirect to dashboard
         if (data.status === "success") {
-            // Redirect based on role
-            // if (data.role === "admin") {
-            //     window.location.href = "/admin";
-            // } else {
-            //     window.location.href = "/dashboard";
-            // }
-            console.log("Logged in as:", data.role);
-
-            // Show on screen (better than console)
-            const resultDiv = document.getElementById("result");
-
-            if (data.role === "admin") {
-                resultDiv.innerText = "✅ Logged in as ADMIN";
-            } else {
-                resultDiv.innerText = "✅ Logged in as OPERATOR";
-            }
+            window.location.href = "/dashboard";
         }
         else {
             alert("Login failed: " + (data.error || "Unknown error"));
@@ -51,11 +41,12 @@ async function loginWithGoogle() {
 
     }
     catch (error) {
-        console.error("Error:", error);
+        console.error("Google Login Error:", error);
         alert("Google login failed: " + error.message);
     }
 }
 
+// Google login button
 document.addEventListener("DOMContentLoaded", () => {
     document
         .getElementById("googleLoginBtn")

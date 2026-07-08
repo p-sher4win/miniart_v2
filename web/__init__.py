@@ -32,10 +32,10 @@ def create_app():
     
     # IMPORT ROUTE BLUEPRINTS
     from .auth import auth
-    # from .root import root
+    from .root import root
     from .routes import routes
     app.register_blueprint(auth, url_prefix='/')
-    # app.register_blueprint(root, url_prefix='/')
+    app.register_blueprint(root, url_prefix='/')
     app.register_blueprint(routes, url_prefix='/')
 
 
